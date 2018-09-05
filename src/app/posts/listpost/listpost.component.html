@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="panel panel-danger">
+    <div class="panel-heading">Posts</div>
+
+    <div class="panel-body">
+
+      <div *ngFor="let post of posts; let i = index;">
+        <div class="panel panel-info">
+          <div class="panel-body" attr.id="{{i}}">
+            <button type="button" style="float:right;" (click)="delete(post._id, i)" class="btn btn-danger btn-sm">Delete</button>
+            <td> Title: <a [routerLink]="['/listpost', post._id]">{{post.title}}</a></td><br>
+            <td>Description: {{post.description}}</td>
+
+            <button type="button" (click)="addLikedUsers(post, post._id, i)" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-thumbs-up"
+                aria-hidden="true"></span></button>
+            &nbsp;
+
+            <button data-toggle="modal" attr.id="{{i}}" data-target="#myModal" (click)="modal(post, i)" class="btn btn-primary btn-sm">{{getLikes(post)}}</button>
+            &nbsp;
+
+            <div class="Modal" *ngIf="modalIf[i]" id="myModal +{{i}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Liked users</h5>
+
+                  </div>
+                  <div class="modal-body">
+                    <table>
+                      <tr *ngFor="let co of likedUser1[i+1]">
+                        <td>
+                          {{co}}
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="closeModal(post, i)" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <button type="button" (click)="addComment(i)" class="btn btn-success btn-sm">Add Comment</button>
+            <button type="button" style="float:right;" (click)="getcomments(post, i)" class="btn btn-info btn-sm">Comments</button>
+
+            <div class="form-group" *ngIf="toggleComments[i]">
+              <label for="comment">Comment:</label>
+              <textarea class="form-control" name="comment" [(ngModel)]="comment[i]" rows="3" id="comment"></textarea>
+              <button class="btn btn-primary btn-sm" (click)="saveComment(comment, i, post._id)">Save Comment</button>
+            </div>
+
+            <div *ngIf="hide[i]">
+              <table class="table table-dark">
+                <tr *ngFor="let co of comm">
+                  <td>{{co}}</td>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
